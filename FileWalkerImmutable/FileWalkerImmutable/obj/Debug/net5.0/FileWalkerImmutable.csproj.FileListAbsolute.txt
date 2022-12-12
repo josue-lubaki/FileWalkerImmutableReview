@@ -1,0 +1,16 @@
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\bin\Debug\net5.0\FileWalkerImmutable.exe
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\bin\Debug\net5.0\FileWalkerImmutable.deps.json
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\bin\Debug\net5.0\FileWalkerImmutable.runtimeconfig.json
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\bin\Debug\net5.0\FileWalkerImmutable.runtimeconfig.dev.json
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\bin\Debug\net5.0\FileWalkerImmutable.dll
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\bin\Debug\net5.0\ref\FileWalkerImmutable.dll
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\bin\Debug\net5.0\FileWalkerImmutable.pdb
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\obj\Debug\net5.0\FileWalkerImmutable.csprojAssemblyReference.cache
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\obj\Debug\net5.0\FileWalkerImmutable.GeneratedMSBuildEditorConfig.editorconfig
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\obj\Debug\net5.0\FileWalkerImmutable.AssemblyInfoInputs.cache
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\obj\Debug\net5.0\FileWalkerImmutable.AssemblyInfo.cs
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\obj\Debug\net5.0\FileWalkerImmutable.csproj.CoreCompileInputs.cache
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\obj\Debug\net5.0\FileWalkerImmutable.dll
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\obj\Debug\net5.0\ref\FileWalkerImmutable.dll
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\obj\Debug\net5.0\FileWalkerImmutable.pdb
+E:\SA_2022\INF1011\review\FileWalkerImmutableReview\FileWalkerImmutable\FileWalkerImmutable\obj\Debug\net5.0\FileWalkerImmutable.genruntimeconfig.cache
