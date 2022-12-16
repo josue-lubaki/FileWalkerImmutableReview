@@ -46,7 +46,7 @@ namespace FileWalkerImmutable
 
         public void Rename(IComponent component, string newName)
         {
-            currentFileSystem = currentFileSystem.Rename(component, newName);
+           currentFileSystem = currentFileSystem.Rename(component, newName);
         }
 
         public void NotifyOnChange(IComponent component)

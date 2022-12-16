@@ -19,8 +19,8 @@ namespace FileWalkerImmutableTest
         public void TestCreateFolder_CreatesFolderWithCorrectName()
         {
             // Arrange
-            var folder = fs.CreateFolder("folder");
-            var file = fs.CreateFile("file1", 100, "The context");
+            IComponent folder = fs.CreateFolder("folder");
+            IComponent file = fs.CreateFile("file1", 100, "The context");
 
             // Act
             fs.AddChildren(folder, file);
@@ -56,6 +56,38 @@ namespace FileWalkerImmutableTest
         }
 
         [TestMethod]
+        public void TestGetFileOrDirectoryNotValide()
+        {
+            // Arrange
+            IComponent root = fs.CreateFolder("Root");
+            IComponent folder1 = fs.CreateFolder("Folder1");
+            IComponent file1 = fs.CreateFile("File1", 100, "This is the content of file1.");
+            fs.AddChildren(folder1, file1);
+            fs.AddChildren(root, folder1);
+
+            // Act
+            string[] path = new string[] { "Folder1", "File3" };
+            IComponent file = fs.GetComponentByPath(root, path);
+
+            Assert.IsNull(file);
+        }
+
+        [TestMethod]
+        public void TestGetFileOrDirectoryWithoutPath()
+        {
+            // Arrange
+            IComponent folder1 = fs.CreateFolder("Folder1");
+            IComponent file1 = fs.CreateFile("File1", 100, "This is the content of file1.");
+            fs.AddChildren(folder1, file1);
+
+            // Act
+            string[] path = new string[] { };
+            IComponent file = fs.GetComponentByPath(folder1, path);
+
+            Assert.AreEqual(folder1.Name, file.Name);
+        }
+
+        [TestMethod]
         public void TestRename()
         {
             // Arrange
@@ -70,8 +102,10 @@ namespace FileWalkerImmutableTest
             IComponent oldFile = fs.GetComponentByPath(folder, "File1");
             Assert.IsNull(oldFile);
 
-            IComponent fileRenamed = fs.GetComponentByPath(folder, "File1-new");
+            IFile fileRenamed = fs.GetComponentByPath(folder, "File1-new") as IFile;
             Assert.AreEqual(fileRenamed.Name, "File1-new");
+            Assert.AreEqual(fileRenamed.Size, 100);
+            Assert.AreEqual(fileRenamed.Content, "This is the content of file1.");
         }
 
         [TestMethod]
@@ -80,26 +114,16 @@ namespace FileWalkerImmutableTest
             // Arrange
             IComponent file1 = null;
 
-            try
-            {
-                // Act
-                fs.Rename(file1, "new-file");
-            }
-            catch (NullReferenceException)
-            {
-                // Assert
-                // OK
-            }
+            // Act
+            Assert.ThrowsException<NullReferenceException>(() => fs.Rename(file1, "new-file"));
         }
 
         [TestMethod]
-        public void TestRemoveFile()
+        public void TestRemoveSimpleFile()
         {
             IComponent root = fs.CreateFolder("Root");
             IComponent file1 = fs.CreateFile("File1", 100, "This is the content of File1.");
-            IComponent file2 = fs.CreateFile("File2", 200, "This is the content of File2.");
             fs.AddChildren(root, file1);
-            fs.AddChildren(root, file2);
 
             // Act
             fs.Delete(file1);
@@ -107,18 +131,73 @@ namespace FileWalkerImmutableTest
             // Assert
             IComponent oldFile1 = fs.GetComponentByPath(root, "File1");
             Assert.IsNull(oldFile1);
-
-            try
-            {
-                // Test pour vérifier que la suppression d'un fichier qui n'existe pas dans le système de fichiers lance une exception.
-                IComponent newFile = fs.CreateFile("InvalidFile", 100, "This is the content of an invalid file.");
-                fs.Delete(newFile);
-            }
-            catch (NullReferenceException)
-            {
-                // OK
-            }
         }
+
+        [TestMethod]
+        public void TestRemoveSimpleFolder()
+        {
+            IComponent root = fs.CreateFolder("Root");
+            IComponent folder = fs.CreateFolder("Root");
+            fs.AddChildren(root, folder);
+
+            // Act
+            fs.Delete(folder);
+
+            // Assert
+            IComponent oldFolder= fs.GetComponentByPath(root, folder.Name);
+            Assert.IsNull(oldFolder);
+        }
+
+        [TestMethod]
+        public void TestRemoveFolderContainsFiles()
+        {
+            IComponent root = fs.CreateFolder("root");
+            IComponent folder = fs.CreateFolder("folder");
+            IComponent file = fs.CreateFile("File1", 100, "This is the content of File1.");
+            fs.AddChildren(folder, file);
+            fs.AddChildren(root, folder);
+
+            // Act
+            fs.Delete(folder);
+
+            // Assert
+            IComponent oldFolder= fs.GetComponentByPath(root, folder.Name);
+            Assert.IsNull(oldFolder);
+
+            IComponent oldFile = fs.GetComponentByPath(root, file.Name);
+            Assert.ThrowsException<NullReferenceException>(() => {
+                // folder.Name is null
+                string[] path = new string[] { folder.Name, file.Name };
+                IComponent oldFile = fs.GetComponentByPath(root, path);
+                Assert.IsNull(oldFile);
+            });
+        }
+
+        [TestMethod]
+        public void TestRemoveNotExistsFile()
+        {
+            IComponent root = fs.CreateFolder("Root");
+            IComponent file = fs.CreateFile("File1", 100, "This is the content of File1.");
+            fs.AddChildren(root, file);
+
+            IComponent file2 = fs.GetComponentByPath(root, "file2");
+
+            Assert.ThrowsException<NullReferenceException>(() => fs.Delete(file2));
+        }
+
+
+        [TestMethod]
+        public void TestRemoveNotExistsFolder()
+        {
+            IComponent root = fs.CreateFolder("Root");
+            IComponent folder = fs.CreateFolder("Folder");
+            fs.AddChildren(root, folder);
+
+            IComponent folder2 = fs.GetComponentByPath(root, "folder2");
+
+            Assert.ThrowsException<NullReferenceException>(() => fs.Delete(folder2));
+        }
+
 
         [TestMethod]
         public void TestNotificationLogEmpty()
@@ -160,6 +239,7 @@ namespace FileWalkerImmutableTest
             fs.Rename(selectedFile, "selectedFile-renamed");
 
             // Assert
+            Assert.IsTrue(fs.NotificationLog.Count == 2);
             Assert.IsTrue(fs.NotificationLog.Contains("folderSelected was renamed to folderSelected-renamed."));
             Assert.IsTrue(fs.NotificationLog.Contains("selectedFile was renamed to selectedFile-renamed."));
             Assert.IsFalse(fs.NotificationLog.Contains("folderUnSelected was renamed to folderUnSelected-renamed."));
